@@ -1,0 +1,5 @@
+selenium-wire
+requests
+psycopg2-binary
+regex
+python-dotenv

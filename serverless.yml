@@ -1,0 +1,32 @@
+org: aranzate
+app: franquias-reviews
+service: arcca-franquias-reviews-scraper
+
+frameworkVersion: '3'
+
+useDotenv: true
+
+
+provider:
+  name: aws
+  runtime: python3.9
+
+functions:
+  scraper-reviews:
+    handler: handler.run
+    events:
+      # Invoke Lambda function every 2nd minute from Mon-Fri
+      - schedule: cron(0/2 * ? * MON-FRI *)
+    timeout: 900
+    environment:
+      DB_NAME: ${env:DB_NAME}
+      DB_USER: ${env:DB_USER}
+      DB_PASSWORD: ${env:DB_PASSWORD}
+      DB_HOST: ${env:DB_HOST}
+
+plugins:
+  - serverless-python-requirements
+  
+custom:
+    pythonRequirements:
+        dockerizePip: non-linux
